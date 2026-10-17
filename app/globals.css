@@ -1,26 +1,514 @@
+
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600&display=swap");
+
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f7f5f0;
+  --foreground: #25251f;
+  --muted: #77766e;
+  --gold: #a98a55;
+  --line: #e6e1d7;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  box-sizing: border-box;
 }
 
 body {
+  margin: 0;
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "DM Sans", sans-serif;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+.studio {
+  width: min(1440px, 100%);
+  margin: auto;
+  padding: 0 6%;
+}
+
+.topbar {
+  min-height: 92px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--line);
+  gap: 20px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: inherit;
+  text-decoration: none;
+}
+
+.brand-mark {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border: 1px solid var(--gold);
+  color: var(--gold);
+  font-family: "Playfair Display", serif;
+  font-size: 26px;
+}
+
+.brand strong,
+.brand small {
+  display: block;
+}
+
+.brand strong {
+  font-family: "Playfair Display", serif;
+  letter-spacing: 3px;
+  font-size: 19px;
+  font-weight: 500;
+}
+
+.brand small {
+  font-size: 8px;
+  letter-spacing: 2px;
+  color: var(--muted);
+  margin-top: 5px;
+}
+
+.live-label,
+.panel-heading,
+.camera-footer,
+.site-footer {
+  font-size: 9px;
+  letter-spacing: 1.5px;
+}
+
+.live-label {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: var(--muted);
+}
+
+.status-dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #77936d;
+}
+
+.intro {
+  text-align: center;
+  padding: 54px 0 42px;
+}
+
+.eyebrow {
+  color: var(--gold);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 2.5px;
+}
+
+.intro h1 {
+  margin: 14px 0 10px;
+  font-family: "Playfair Display", serif;
+  font-size: clamp(42px, 5vw, 66px);
+  font-weight: 400;
+  letter-spacing: -1.5px;
+}
+
+.subtitle,
+.controls-description {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+.workspace {
+  display: grid;
+  grid-template-columns: minmax(0, 1.45fr) minmax(300px, 0.8fr);
+  gap: 28px;
+  align-items: start;
+}
+
+.camera-panel,
+.controls-panel {
+  min-width: 0;
+}
+
+.panel-heading {
+  display: flex;
+  justify-content: space-between;
+  color: var(--muted);
+  margin-bottom: 13px;
+}
+
+.camera-stage {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  min-height: 430px;
+  aspect-ratio: 4 / 3;
+  background: #e9e4d9;
+}
+
+.camera-video {
+  display: none;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  inset: 0;
+  object-fit: cover;
+  transform: scaleX(-1);
+  z-index: 1;
+}
+
+.camera-video.visible {
+  display: block;
+}
+
+.camera-placeholder {
+  padding: 24px;
+  text-align: center;
+  max-width: 340px;
+}
+
+.mirror-icon {
+  display: grid;
+  place-items: center;
+  width: 72px;
+  height: 72px;
+  margin: 0 auto 25px;
+  border: 1px solid #c6b99e;
+  border-radius: 50%;
+  color: var(--gold);
+  font-size: 44px;
+}
+
+.placeholder-title {
+  font-family: "Playfair Display", serif;
+  font-size: 25px;
+}
+
+.placeholder-text {
+  margin: 12px 0 24px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.8;
+}
+
+.primary-button {
+  background: #292a23;
+  border: 1px solid #292a23;
+  padding: 14px 22px;
+  color: white;
+  font-size: 11px;
+  transition: background 0.2s;
+}
+
+.primary-button:hover {
+  background: #514735;
+}
+
+.primary-button span {
+  margin-left: 18px;
+}
+
+.camera-overlay {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  right: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.camera-badge,
+.stop-button {
+  padding: 9px 12px;
+  background: rgba(25, 25, 23, 0.75);
+  color: white;
+  font-size: 9px;
+  letter-spacing: 1px;
+}
+
+.camera-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.stop-button {
+  border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.camera-footer {
+  display: flex;
+  justify-content: space-between;
+  color: var(--muted);
+  padding: 14px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.controls-panel {
+  padding: 28px 25px;
+  background: #fffefa;
+  border: 1px solid var(--line);
+}
+
+.controls-panel h2 {
+  margin: 10px 0;
+  font-family: "Playfair Display", serif;
+  font-size: 27px;
+  font-weight: 400;
+}
+
+.controls-description {
+  margin-bottom: 25px;
+  font-size: 12px;
+}
+
+.ring-list {
+  display: grid;
+  gap: 10px;
+}
+
+.ring-option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  text-align: left;
+  padding: 10px;
+  background: transparent;
+  border: 1px solid var(--line);
+}
+
+.ring-option.selected {
+  border-color: var(--gold);
+  background: #f9f5ec;
+}
+
+.ring-thumbnail {
+  --ring-color: #e5d0a1;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 53px;
+  height: 53px;
+  background: #f0ece4;
+}
+
+.ring-shape {
+  position: relative;
+  display: block;
+  width: 25px;
+  height: 25px;
+  border: 5px solid var(--ring-color);
+  border-radius: 50%;
+  box-shadow: 1px 2px 3px #0002, inset 0 0 2px #0004;
+  transform: rotate(-25deg);
+}
+
+.ring-1 {
+  border-width: 4px;
+  box-shadow: 0 0 0 2px #c5c6c6;
+}
+
+.ring-2 {
+  border-width: 6px;
+}
+
+.ring-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.ring-info strong,
+.ring-info small {
+  display: block;
+}
+
+.ring-info strong {
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.ring-info small {
+  margin-top: 6px;
+  color: var(--muted);
+  font-size: 9px;
+}
+
+.selection-mark {
+  color: var(--gold);
+  padding: 5px;
+}
+
+.size-control {
+  margin-top: 28px;
+}
+
+.size-heading,
+.range-labels {
+  display: flex;
+  justify-content: space-between;
+}
+
+.size-heading {
+  font-size: 11px;
+}
+
+.size-heading span {
+  color: var(--gold);
+}
+
+.size-control input {
+  width: 100%;
+  margin: 18px 0 8px;
+  accent-color: var(--gold);
+}
+
+.range-labels {
+  font-size: 9px;
+  color: var(--muted);
+}
+
+.hint {
+  display: flex;
+  gap: 12px;
+  padding-top: 22px;
+  margin-top: 24px;
+  border-top: 1px solid var(--line);
+}
+
+.hint > span {
+  color: var(--gold);
+  font-size: 22px;
+}
+
+.hint p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 10px;
+  line-height: 1.9;
+}
+
+.hint strong {
+  color: var(--foreground);
+}
+
+.error-message {
+  color: #a22b2b;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.site-footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  color: var(--muted);
+  padding: 32px 0;
+  margin-top: 20px;
+}
+
+@media (max-width: 850px) {
+  .studio {
+    padding: 0 5%;
+  }
+
+  .workspace {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .camera-stage {
+    min-height: 300px;
+  }
+
+  .controls-panel {
+    padding: 24px 18px;
+  }
+}
+
+@media (max-width: 480px) {
+  .topbar {
+    min-height: 75px;
+  }
+
+  .brand strong {
+    font-size: 16px;
+  }
+
+  .brand small {
+    font-size: 7px;
+    letter-spacing: 1px;
+  }
+
+  .live-label {
+    font-size: 0;
+  }
+
+  .intro {
+    padding: 38px 0 28px;
+  }
+
+  .camera-stage {
+    min-height: 280px;
+    aspect-ratio: 3 / 4;
+  }
+
+  .site-footer {
+    font-size: 8px;
+    letter-spacing: 0.7px;
+  }
+
+  .hand-tracking-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+  transform: scaleX(-1);
+}
+
+.tracking-status {
+  position: absolute;
+  left: 14px;
+  bottom: 14px;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  color: white;
+  background: rgba(25, 25, 23, 0.78);
+  font-size: 11px;
+}
+
+.tracking-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #d7b96f;
+}
+
+.tracking-dot.detected {
+  background: #85bd7a;
+}
 }
